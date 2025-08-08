@@ -97,7 +97,8 @@ class HomeController extends Controller
 
             return redirect()->route('dashboard')->with('success', 'Pendaftaran berhasil! Selamat datang di IKMKB Jakarta');
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat mendaftar. Silakan coba lagi'])->withInput();
+            \Log::error('Registration error: ' . $e->getMessage());
+            return back()->withErrors(['error' => $e->getMessage()])->withInput();
         }
     }
 

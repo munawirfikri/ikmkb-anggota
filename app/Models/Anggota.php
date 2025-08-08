@@ -47,9 +47,12 @@ class Anggota extends Authenticatable
     public function generateNoAnggota()
     {
         $year = date('y'); // 2 digit tahun
-        $lastMember = self::orderBy('id', 'desc')->first();
+        $lastMember = self::whereNotNull('no_anggota')
+                         ->where('no_anggota', '!=', '')
+                         ->orderBy('id', 'desc')
+                         ->first();
         
-        if ($lastMember && $lastMember->no_anggota) {
+        if ($lastMember && !empty($lastMember->no_anggota)) {
             $lastNumber = intval(substr($lastMember->no_anggota, -6));
             $newNumber = $lastNumber + 1;
         } else {
